@@ -7,7 +7,7 @@
 		</semantic:titleHeading>
 
 		<semantic:content>
-			<Panel>
+			<Panel headerText="Products">
 				<content>
 					
 					<Toolbar>
