@@ -82,6 +82,97 @@ sap.ui.define([
 				}
 			});
 		}, //end of _sortbyprice
+		_pricele100 : function(){
+				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
+			var jsonmodel1 = new sap.ui.model.json.JSONModel();
+			sap.ui.core.BusyIndicator.show(0);
+			var filter1 = new Filter("Price",FilterOperator.LE,"100");
+
+			odatamodel1.read("/ProductSet", {
+				filters : [filter1],
+				success: function(req, resp) {
+
+					sap.ui.core.BusyIndicator.hide();
+					jsonmodel1.setSizeLimit(1000);
+					jsonmodel1.setData(req.results);
+					this.getView().byId("table1").setModel(jsonmodel1, "sapprod");
+				}.bind(this),
+				error: function(msg) {
+					sap.ui.core.BusyIndicator.hide();
+					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
+				}
+			});
+		},//end of _pricele100
+		_widthbt5_10 : function(){
+				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
+			var jsonmodel1 = new sap.ui.model.json.JSONModel();
+			sap.ui.core.BusyIndicator.show(0);
+			var filter1 = new Filter("Width",FilterOperator.BT,"5","10");
+
+			odatamodel1.read("/ProductSet", {
+				filters : [filter1],
+				success: function(req, resp) {
+
+					sap.ui.core.BusyIndicator.hide();
+					jsonmodel1.setSizeLimit(1000);
+					jsonmodel1.setData(req.results);
+					this.getView().byId("table1").setModel(jsonmodel1, "sapprod");
+				}.bind(this),
+				error: function(msg) {
+					sap.ui.core.BusyIndicator.hide();
+					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
+				}
+			});
+		},//end of _widthbt5_10
+		_priceandcategory : function(){
+				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
+			var jsonmodel1 = new sap.ui.model.json.JSONModel();
+			sap.ui.core.BusyIndicator.show(0);
+			var filter1 = new Filter("Price",FilterOperator.EQ,"1249");
+			var filter2 = new Filter("Category",FilterOperator.EQ,"Notebooks");
+
+			odatamodel1.read("/ProductSet", {
+				filters : [filter1,filter2],
+				success: function(req, resp) {
+
+					sap.ui.core.BusyIndicator.hide();
+					jsonmodel1.setSizeLimit(1000);
+					jsonmodel1.setData(req.results);
+					this.getView().byId("table1").setModel(jsonmodel1, "sapprod");
+				}.bind(this),
+				error: function(msg) {
+					sap.ui.core.BusyIndicator.hide();
+					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
+				}
+			});
+		},//end of _priceandcategory
+		_searchcategory : function(oevent){
+				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
+			var jsonmodel1 = new sap.ui.model.json.JSONModel();
+			sap.ui.core.BusyIndicator.show(0);
+			var categoryname = oevent.getSource().getValue();
+		
+			var filter1 = new Filter("Category",FilterOperator.Contains,categoryname);
+
+			odatamodel1.read("/ProductSet", {
+				filters : [filter1],
+				success: function(req, resp) {
+
+					sap.ui.core.BusyIndicator.hide();
+					jsonmodel1.setSizeLimit(1000);
+					jsonmodel1.setData(req.results);
+					this.getView().byId("table1").setModel(jsonmodel1, "sapprod");
+				}.bind(this),
+				error: function(msg) {
+					sap.ui.core.BusyIndicator.hide();
+					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
+				}
+			});
+		},//end of _searchcategory
 
 		/**
 		 * Called when the worklist controller is instantiated.
