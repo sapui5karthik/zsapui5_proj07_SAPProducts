@@ -28,6 +28,7 @@
 					</Toolbar>
 					<Toolbar>
 						<ToolbarSpacer/>
+						<!--Static Data ComboBox-->
 						<ComboBox change="_staticcombo">
 							<core:Item key="0" text="" />
 							<core:Item key="1" text="Sort by Category" />
@@ -36,9 +37,19 @@
 							<core:Item key="4" text="Width bw 5 and 10" />
 							<core:Item key="5" text="Price and Category" />
 						</ComboBox>
+						<!--Dynamic Data ComboBox-->
+						<ComboBox id="iddynamiccombo" items="{path : 'dynacb>/'}" change="_dynacombo">
+							<core:Item key="" text="" />
+							<core:Item key="" text="{dynacb>ProductID}" />
+						</ComboBox>
 					</Toolbar>
-					<Table id="table1" items="{path : 'sapprod>/'}" growing="true" growingThreshold="8" growingScrollToLoad="false">
+					<Table id="table1" items="{path : 'sapprod>/'}" growing="true" growingThreshold="8" growingScrollToLoad="false"
+					
+					>
 						<columns>
+							<Column width="20px">
+								<Text text="Sel" />
+							</Column>
 							<Column>
 								<Text text="{i18n>pid}"/>
 							</Column>
@@ -64,6 +75,7 @@
 						<items>
 							<ColumnListItem>
 								<cells>
+									<RadioButton select="_getSelectedTableRowsData"/>
 									<Text text="{sapprod>ProductID}"/>
 									<Text text="{sapprod>TypeCode}"/>
 									<Text text="{sapprod>Category}"/>

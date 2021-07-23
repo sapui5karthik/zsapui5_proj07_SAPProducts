@@ -5,8 +5,9 @@ sap.ui.define([
 	"sap/ui/core/routing/History",
 	"zsapui5proj07/ZSAPUI5_Proj07_SAPProducts/model/formatter",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
-], function(BaseController, JSONModel, History, formatter, Filter, FilterOperator) {
+	"sap/ui/model/FilterOperator",
+	"sap/m/MessageBox"
+], function(BaseController, JSONModel, History, formatter, Filter, FilterOperator,MessageBox) {
 	"use strict";
 
 	return BaseController.extend("zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Worklist", {
@@ -23,6 +24,8 @@ sap.ui.define([
 			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
+			var jsonmodeldynacombo = new JSONModel();
+			
 			sap.ui.core.BusyIndicator.show(0);
 
 			odatamodel1.read("/ProductSet", {
@@ -30,8 +33,11 @@ sap.ui.define([
 
 					sap.ui.core.BusyIndicator.hide();
 					jsonmodel1.setSizeLimit(1000);
+					jsonmodeldynacombo.setSizeLimit(1000);
 					jsonmodel1.setData(req.results);
+					jsonmodeldynacombo.setData(req.results);
 					this.getView().byId("table1").setModel(jsonmodel1, "sapprod");
+					this.getView().byId("iddynamiccombo").setModel(jsonmodeldynacombo, "dynacb");
 				}.bind(this),
 				error: function(msg) {
 					sap.ui.core.BusyIndicator.hide();
@@ -196,6 +202,42 @@ sap.ui.define([
 				this._priceandcategory();
 			}
 		}, //end of _staticcombo
+		_dynacombo : function(oevent){
+			var productid = oevent.getParameter("value");
+			
+				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
+			var jsonmodel1 = new sap.ui.model.json.JSONModel();
+			sap.ui.core.BusyIndicator.show(0);
+			var filter1 = new Filter("ProductID", FilterOperator.EQ, productid);
+
+			odatamodel1.read("/ProductSet", {
+				filters: [filter1],
+				success: function(req, resp) {
+
+					sap.ui.core.BusyIndicator.hide();
+					jsonmodel1.setSizeLimit(1000);
+					jsonmodel1.setData(req.results);
+					this.getView().byId("table1").setModel(jsonmodel1, "sapprod");
+				}.bind(this),
+				error: function(msg) {
+					sap.ui.core.BusyIndicator.hide();
+					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
+				}
+			});
+			
+		},//end of _dynacombo
+		_getSelectedTableRowsData : function(oevent){
+			if(oevent.getParameter("selected")){
+			var bc = oevent.getSource().getBindingContext("sapprod");
+			var pid = bc.getProperty("ProductID");
+			var tc = bc.getProperty("TypeCode");
+			var cat = bc.getProperty("Category");
+			var name = bc.getProperty("Name");
+			MessageBox.alert(pid +"\n"+tc + "\n"+cat+"\n"+name);
+			
+			}
+		},//end of _getSelectedTableRowsData
 
 		/**
 		 * Called when the worklist controller is instantiated.
