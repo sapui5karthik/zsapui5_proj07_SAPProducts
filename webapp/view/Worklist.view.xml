@@ -1,5 +1,8 @@
 <mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
-	controllerName="zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Worklist">
+	controllerName="zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Worklist"
+	xmlns:core="sap.ui.core"
+	
+	>
 	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false">
 		<semantic:titleHeading>
 			<Title text="SAP Products with OData Query Strings"/>
@@ -22,6 +25,17 @@
 					<Toolbar>
 						<ToolbarSpacer/>
 						<Input width="auto" placeholder="search on category..." submit="_searchcategory"/>
+					</Toolbar>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<ComboBox change="_staticcombo">
+							<core:Item key="0" text="" />
+							<core:Item key="1" text="Sort by Category" />
+							<core:Item key="2" text="Sort by Price" />
+							<core:Item key="3" text="Price le 100" />
+							<core:Item key="4" text="Width bw 5 and 10" />
+							<core:Item key="5" text="Price and Category" />
+						</ComboBox>
 					</Toolbar>
 					<Table id="table1" items="{path : 'sapprod>/'}" growing="true" growingThreshold="8" growingScrollToLoad="false">
 						<columns>

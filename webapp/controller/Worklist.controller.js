@@ -45,7 +45,7 @@ sap.ui.define([
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			//sap.ui.core.BusyIndicator.show(0);
-		this.byId("id1").setBusy(true);
+			this.byId("id1").setBusy(true);
 			odatamodel1.read("/ProductSet?$orderby=Category", {
 				success: function(req, resp) {
 
@@ -82,15 +82,15 @@ sap.ui.define([
 				}
 			});
 		}, //end of _sortbyprice
-		_pricele100 : function(){
-				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+		_pricele100: function() {
+			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			sap.ui.core.BusyIndicator.show(0);
-			var filter1 = new Filter("Price",FilterOperator.LE,"100");
+			var filter1 = new Filter("Price", FilterOperator.LE, "100");
 
 			odatamodel1.read("/ProductSet", {
-				filters : [filter1],
+				filters: [filter1],
 				success: function(req, resp) {
 
 					sap.ui.core.BusyIndicator.hide();
@@ -103,16 +103,16 @@ sap.ui.define([
 					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
 				}
 			});
-		},//end of _pricele100
-		_widthbt5_10 : function(){
-				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+		}, //end of _pricele100
+		_widthbt5_10: function() {
+			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			sap.ui.core.BusyIndicator.show(0);
-			var filter1 = new Filter("Width",FilterOperator.BT,"5","10");
+			var filter1 = new Filter("Width", FilterOperator.BT, "5", "10");
 
 			odatamodel1.read("/ProductSet", {
-				filters : [filter1],
+				filters: [filter1],
 				success: function(req, resp) {
 
 					sap.ui.core.BusyIndicator.hide();
@@ -125,17 +125,17 @@ sap.ui.define([
 					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
 				}
 			});
-		},//end of _widthbt5_10
-		_priceandcategory : function(){
-				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+		}, //end of _widthbt5_10
+		_priceandcategory: function() {
+			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			sap.ui.core.BusyIndicator.show(0);
-			var filter1 = new Filter("Price",FilterOperator.EQ,"1249");
-			var filter2 = new Filter("Category",FilterOperator.EQ,"Notebooks");
+			var filter1 = new Filter("Price", FilterOperator.EQ, "1249");
+			var filter2 = new Filter("Category", FilterOperator.EQ, "Notebooks");
 
 			odatamodel1.read("/ProductSet", {
-				filters : [filter1,filter2],
+				filters: [filter1, filter2],
 				success: function(req, resp) {
 
 					sap.ui.core.BusyIndicator.hide();
@@ -148,18 +148,18 @@ sap.ui.define([
 					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
 				}
 			});
-		},//end of _priceandcategory
-		_searchcategory : function(oevent){
-				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+		}, //end of _priceandcategory
+		_searchcategory: function(oevent) {
+			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			sap.ui.core.BusyIndicator.show(0);
 			var categoryname = oevent.getSource().getValue();
-		
-			var filter1 = new Filter("Category",FilterOperator.Contains,categoryname);
+
+			var filter1 = new Filter("Category", FilterOperator.Contains, categoryname);
 
 			odatamodel1.read("/ProductSet", {
-				filters : [filter1],
+				filters: [filter1],
 				success: function(req, resp) {
 
 					sap.ui.core.BusyIndicator.hide();
@@ -172,7 +172,30 @@ sap.ui.define([
 					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
 				}
 			});
-		},//end of _searchcategory
+		}, //end of _searchcategory
+
+		_staticcombo: function(oevent) {
+
+			var key = oevent.getSource().getSelectedKey();
+			if (key === "0") {
+				this._refresh();
+			}
+			if (key === "1") {
+				this._sortbycategory();
+			}
+			if (key === "2") {
+				this._sortbyprice();
+			}
+			if (key === "3") {
+				this._pricele100();
+			}
+			if (key === "4") {
+				this._widthbt5_10();
+			}
+			if (key === "5") {
+				this._priceandcategory();
+			}
+		}, //end of _staticcombo
 
 		/**
 		 * Called when the worklist controller is instantiated.
