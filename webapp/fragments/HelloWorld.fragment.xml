@@ -1,0 +1,11 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog title="HelloWorld" draggable="true" resizable="true" contentHeight="200px" contentWidth="150px">
+		<Text text="WELCOME TO THE FRAGMENT WHICH HAS A HELLO WORLD CUSTOMIZED DIALOG BOX" />
+		<beginButton>
+			<Button text="OK"/>
+		</beginButton>
+		<endButton>
+			<Button text="Cancel" press="_cancelHelloWorldbox"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

@@ -43,6 +43,10 @@
 							<core:Item key="" text="{dynacb>ProductID}" />
 						</ComboBox>
 					</Toolbar>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button text="Hello Fragment" press="_openhelloworldfragment"/>
+					</Toolbar>
 					<Table id="table1" items="{path : 'sapprod>/'}" growing="true" growingThreshold="8" growingScrollToLoad="false"
 					
 					>

@@ -238,6 +238,21 @@ sap.ui.define([
 			
 			}
 		},//end of _getSelectedTableRowsData
+		_openhelloworldfragment : function(){
+			//create a fragment object
+			
+	//this.a = sap.ui.xmlfragment(id of the fragment,path to the fragment,point to the fragment itself);
+	if(!this.a){
+		this.a = sap.ui.xmlfragment(this.getView().getId(),"zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.HelloWorld",this);
+		this.getView().addDependent(this.a);
+	}
+			// open the fragment object
+		this.a.open();
+		},//end of _openhelloworldfragment
+		
+		_cancelHelloWorldbox : function(){
+			this.a.close();
+		},//end of _cancelHelloWorldbox
 
 		/**
 		 * Called when the worklist controller is instantiated.
