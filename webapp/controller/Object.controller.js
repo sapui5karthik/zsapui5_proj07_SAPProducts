@@ -3,12 +3,14 @@ sap.ui.define([
 		"zsapui5proj07/ZSAPUI5_Proj07_SAPProducts/controller/BaseController",
 		"sap/ui/model/json/JSONModel",
 		"sap/ui/core/routing/History",
-		"zsapui5proj07/ZSAPUI5_Proj07_SAPProducts/model/formatter"
+		"zsapui5proj07/ZSAPUI5_Proj07_SAPProducts/model/formatter",
+		"sap/ui/model/Filter",
+		"sap/ui/model/FilterOperator"
 	], function (
 		BaseController,
 		JSONModel,
 		History,
-		formatter
+		formatter,Filter,FilterOperator
 	) {
 		"use strict";
 
@@ -19,12 +21,50 @@ sap.ui.define([
 			/* =========================================================== */
 			/* lifecycle methods                                           */
 			/* =========================================================== */
+			onInit : function(){
+			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			this.oRouter.getRoute("object").attachPatternMatched(this._getProductidvalue,this);	
+			},//end of onInit
+			
+			_getProductidvalue : function(oevent){
+				debugger;
+				var pid = oevent.getParameter("arguments").ProductID;
+				
+					var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
+			var jsonmodel1 = new sap.ui.model.json.JSONModel();
+			var filter1 = new Filter("ProductID",FilterOperator.EQ,pid);
+
+			odatamodel1.read("/ProductSet", {
+				filters : [filter1],
+				success: function(req, resp) {
+
+					sap.ui.core.BusyIndicator.hide();
+					jsonmodel1.setSizeLimit(1000);
+				
+					jsonmodel1.setData(req.results[0]);
+					this.getView().setModel(jsonmodel1);
+				
+				}.bind(this),
+				error: function(msg) {
+					sap.ui.core.BusyIndicator.hide();
+					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
+				}
+			});
+				
+			},//end of _getProductidvalue
+			
+			_backtoworklist : function(){
+				this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				this.oRouter.navTo("worklist",{},true);
+			},//end of _backtoworklist
 
 			/**
 			 * Called when the worklist controller is instantiated.
 			 * @public
 			 */
-			onInit : function () {
+			_onInit : function () {
 				// Model used to manipulate control states. The chosen values make sure,
 				// detail page is busy indication immediately so there is no break in
 				// between the busy indication for loading the view's meta data

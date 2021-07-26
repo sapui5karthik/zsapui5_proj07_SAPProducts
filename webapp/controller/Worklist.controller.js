@@ -6,8 +6,9 @@ sap.ui.define([
 	"zsapui5proj07/ZSAPUI5_Proj07_SAPProducts/model/formatter",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
-	"sap/m/MessageBox"
-], function(BaseController, JSONModel, History, formatter, Filter, FilterOperator,MessageBox) {
+	"sap/m/MessageBox",
+	"sap/m/MessageToast"
+], function(BaseController, JSONModel, History, formatter, Filter, FilterOperator,MessageBox,MessageToast) {
 	"use strict";
 
 	return BaseController.extend("zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Worklist", {
@@ -20,6 +21,20 @@ sap.ui.define([
 		_refresh: function() {
 			this.onInit();
 		}, //end of _refresh
+		_rowselected : function(oevent){
+			//MessageToast.show("Row clicked");
+			//get the router reference
+			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+		this.oRouter.navTo("object",{
+			from : "worklist",
+			to : "object",
+			ProductID : oevent.getSource().getBindingContext("sapprod").getProperty("ProductID")
+		},true);	
+			
+			
+			
+			
+		},//end of _rowselected
 		onInit: function() {
 			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);

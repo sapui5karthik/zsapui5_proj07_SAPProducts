@@ -1,8 +1,5 @@
 <mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
-	controllerName="zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Worklist"
-	xmlns:core="sap.ui.core"
-	
-	>
+	controllerName="zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Worklist" xmlns:core="sap.ui.core">
 	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false">
 		<semantic:titleHeading>
 			<Title text="SAP Products with OData Query Strings"/>
@@ -30,29 +27,27 @@
 						<ToolbarSpacer/>
 						<!--Static Data ComboBox-->
 						<ComboBox change="_staticcombo">
-							<core:Item key="0" text="" />
-							<core:Item key="1" text="Sort by Category" />
-							<core:Item key="2" text="Sort by Price" />
-							<core:Item key="3" text="Price le 100" />
-							<core:Item key="4" text="Width bw 5 and 10" />
-							<core:Item key="5" text="Price and Category" />
+							<core:Item key="0" text=""/>
+							<core:Item key="1" text="Sort by Category"/>
+							<core:Item key="2" text="Sort by Price"/>
+							<core:Item key="3" text="Price le 100"/>
+							<core:Item key="4" text="Width bw 5 and 10"/>
+							<core:Item key="5" text="Price and Category"/>
 						</ComboBox>
 						<!--Dynamic Data ComboBox-->
 						<ComboBox id="iddynamiccombo" items="{path : 'dynacb>/'}" change="_dynacombo">
-							<core:Item key="" text="" />
-							<core:Item key="" text="{dynacb>ProductID}" />
+							<core:Item key="" text=""/>
+							<core:Item key="" text="{dynacb>ProductID}"/>
 						</ComboBox>
 					</Toolbar>
 					<Toolbar>
 						<ToolbarSpacer/>
 						<Button text="Hello Fragment" press="_openhelloworldfragment"/>
 					</Toolbar>
-					<Table id="table1" items="{path : 'sapprod>/'}" growing="true" growingThreshold="8" growingScrollToLoad="false"
-					
-					>
+					<Table id="table1" items="{path : 'sapprod>/'}" growing="true" growingThreshold="8" growingScrollToLoad="false">
 						<columns>
 							<Column width="20px">
-								<Text text="Sel" />
+								<Text text="Sel"/>
 							</Column>
 							<Column>
 								<Text text="{i18n>pid}"/>
@@ -70,23 +65,39 @@
 								<Text text="{i18n>p1}"/>
 							</Column>
 							<Column>
+								<Text text="Disc.Price"/>
+							</Column>
+							<Column>
+								<Text text="Disc.Price(EB)"/>
+							</Column>
+							<Column>
 								<Text text="Width"/>
 							</Column>
 							<Column demandPopin="true" minScreenWidth="Tablet">
 								<Text text="{i18n>cdate}"/>
 							</Column>
+							<Column>
+								<Text text="Action" />
+							</Column>
 						</columns>
 						<items>
-							<ColumnListItem>
+							<ColumnListItem >
 								<cells>
 									<RadioButton select="_getSelectedTableRowsData"/>
 									<Text text="{sapprod>ProductID}"/>
 									<Text text="{sapprod>TypeCode}"/>
 									<Text text="{sapprod>Category}"/>
 									<Text text="{sapprod>Name}"/>
-									<Text text="{sapprod>Price}"/>
-									<Text text="{sapprod>Width}"/>
-									<Text text="{sapprod>CreatedAt}"/>
+									<ObjectStatus state="{
+											path : 'sapprod>Price',
+											formatter : '.formatter.color1'
+											}" text="{sapprod>Price}"/>
+									<Text text="{ path : 'sapprod>Price', formatter : '.formatter.discprice1' }"/>
+<Text text="{=${sapprod>Price}  &lt; 500 ?	${sapprod>Price}-50 : ${sapprod>Price}-100 }" />
+									<Text text="{ path : 'sapprod>Width', formatter : '.formatter.width1' }"/>
+									<Text text="{
+										path : 'sapprod>CreatedAt', formatter:'.formatter.createdate1'}"/>
+									<Button text="Delete" type="Reject" visible="{=${sapprod>Price}  &lt; 500 ? false: true}"/>
 								</cells>
 							</ColumnListItem>
 						</items>

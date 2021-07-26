@@ -1,38 +1,54 @@
-<mvc:View
-	controllerName="zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Object"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:semantic="sap.f.semantic"
-	xmlns:footerbar="sap.ushell.ui.footerbar">
-
-	<semantic:SemanticPage
-		id="page"
-		headerPinnable="false"
-		toggleHeaderOnTitleClick="false"
-		busy="{objectView>/busy}"
+<mvc:View controllerName="zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:f="sap.ui.layout.form">
+	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
-
 		<semantic:titleHeading>
-			<Title text="{Name}" />
+			<Title text=""/>
 		</semantic:titleHeading>
-
 		<semantic:headerContent>
-			<ObjectNumber
-			/>
+			<ObjectNumber/>
 		</semantic:headerContent>
-
+		<semantic:content>
+			<Panel>
+				<content>
+					<Button text="Back" press="_backtoworklist"/>
+					<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="Details of {/ProductID}" labelSpanXL="3"
+						labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
+						columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+						<f:content>
+							<Label text="Category"/><ObjectStatus state="Error" text="{/Category}"/>
+							<Label text="ChangedAt"/><ObjectStatus state="Error" text="{/ChangedAt}"/>
+							<Label text="CreatedAt"/><ObjectStatus state="Error" text="{/CreatedAt}"/>
+							<Label text="CurrencyCode"/><ObjectStatus state="Error" text="{/CurrencyCode}"/>
+							<Label text="Depth"/><ObjectStatus state="Error" text="{/Depth}"/>
+							<Label text="Description"/><ObjectStatus state="Error" text="{/Description}"/>
+							<Label text="DescriptionLanguage"/><ObjectStatus state="Error" text="{/DescriptionLanguage}"/>
+							<Label text="DimUnit"/><ObjectStatus state="Error" text="{/DimUnit}"/>
+							<Label text="Height"/><ObjectStatus state="Error" text="{/Height}"/>
+							<Label text="MeasureUnit"/><ObjectStatus state="Error" text="{/MeasureUnit}"/>
+							<Label text="Name"/><ObjectStatus state="Error" text="{/Name}"/>
+							<Label text="NameLanguage"/><ObjectStatus state="Error" text="{/NameLanguage}"/>
+							<Label text="Price"/><ObjectStatus state="Error" text="{/Price}"/>
+							<Label text="ProductID"/><ObjectStatus state="Error" text="{/ProductID}"/>
+							<Label text="SupplierID"/><ObjectStatus state="Error" text="{/SupplierID}"/>
+							<Label text="SupplierName"/><ObjectStatus state="Error" text="{/SupplierName}"/>
+							<Label text="TaxTarifCode"/><ObjectStatus state="Error" text="{/TaxTarifCode}"/>
+							<Label text="TypeCode"/><ObjectStatus state="Error" text="{/TypeCode}"/>
+							<Label text="WeightMeasure"/><ObjectStatus state="Error" text="{/WeightMeasure} {WeightUnit}"/>
+							<Label text="Width"/><ObjectStatus state="Error" text="{/Width}"/>
+						</f:content>
+					</f:SimpleForm>
+				</content>
+			</Panel>
+		</semantic:content>
 		<semantic:sendEmailAction>
 			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
 		</semantic:sendEmailAction>
-
 		<semantic:shareInJamAction>
 			<semantic:ShareInJamAction id="shareInJam" visible="{FLP>/isShareInJamActive}" press="onShareInJamPress"/>
 		</semantic:shareInJamAction>
-
 		<semantic:saveAsTileAction>
-			<footerbar:AddBookmarkButton id ="shareTile" title="{objectView>/saveAsTileTitle}" />
+			<footerbar:AddBookmarkButton id="shareTile" title="{objectView>/saveAsTileTitle}"/>
 		</semantic:saveAsTileAction>
-
 	</semantic:SemanticPage>
-
 </mvc:View>
