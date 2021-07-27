@@ -37,6 +37,7 @@ sap.ui.define([
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			var jsonmodeldynacombo = new JSONModel();
+			this.jsonmodelgraph = new JSONModel();
 
 			sap.ui.core.BusyIndicator.show(0);
 
@@ -46,8 +47,11 @@ sap.ui.define([
 					sap.ui.core.BusyIndicator.hide();
 					jsonmodel1.setSizeLimit(1000);
 					jsonmodeldynacombo.setSizeLimit(1000);
+					this.jsonmodelgraph.setSizeLimit(1000);
+
 					jsonmodel1.setData(req.results);
 					jsonmodeldynacombo.setData(req.results);
+					this.jsonmodelgraph.setData(req.results);
 					this.getView().byId("table1").setModel(jsonmodel1, "sapprod");
 					this.getView().byId("iddynamiccombo").setModel(jsonmodeldynacombo, "dynacb");
 				}.bind(this),
@@ -265,24 +269,24 @@ sap.ui.define([
 		_cancelHelloWorldbox: function() {
 			this.a.close();
 		}, //end of _cancelHelloWorldbox
-		_opensortbox : function(){
-			
-			if(!this.sortreq){
-			this.sortreq = sap.ui.xmlfragment(this.getView().getId(),"zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.Sort",this);
-			this.getView().addDependent(this.sortreq);
+		_opensortbox: function() {
+
+			if (!this.sortreq) {
+				this.sortreq = sap.ui.xmlfragment(this.getView().getId(), "zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.Sort", this);
+				this.getView().addDependent(this.sortreq);
 			}
 			this.sortreq.open();
 			this.byId("sortrbgroup").setSelectedIndex(-1);
-		},//end of _opensortbox
-		_sortasc : function(){
+		}, //end of _opensortbox
+		_sortasc: function() {
 			var param = this.byId("sortrbgroup").getSelectedButton().getText();
-			
-				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+
+			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			//sap.ui.core.BusyIndicator.show(0);
 			this.byId("sortabutton").setBusy(true);
-			odatamodel1.read("/ProductSet?$orderby="+param+"", {
+			odatamodel1.read("/ProductSet?$orderby=" + param + "", {
 				success: function(req, resp) {
 
 					//sap.ui.core.BusyIndicator.hide();
@@ -294,21 +298,21 @@ sap.ui.define([
 				}.bind(this),
 				error: function(msg) {
 					//sap.ui.core.BusyIndicator.hide();
-					
+
 					sap.m.MessageToast.show("Failed:Refresh again!:2001" + msg);
 				}
 			});
-			
-		},//end of _sortasc
-		_sortdesc : function(){
-				var param = this.byId("sortrbgroup").getSelectedButton().getText();
-			
-				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+
+		}, //end of _sortasc
+		_sortdesc: function() {
+			var param = this.byId("sortrbgroup").getSelectedButton().getText();
+
+			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			//sap.ui.core.BusyIndicator.show(0);
 			this.byId("sortdbutton").setBusy(true);
-			odatamodel1.read("/ProductSet?$orderby="+param+" desc", {
+			odatamodel1.read("/ProductSet?$orderby=" + param + " desc", {
 				success: function(req, resp) {
 
 					//sap.ui.core.BusyIndicator.hide();
@@ -320,60 +324,93 @@ sap.ui.define([
 				}.bind(this),
 				error: function(msg) {
 					//sap.ui.core.BusyIndicator.hide();
-					
+
 					sap.m.MessageToast.show("Failed:Refresh again!:2001" + msg);
 				}
 			});
-		},//end of _sortdesc
-		_sortcancel : function(){
+		}, //end of _sortdesc
+		_sortcancel: function() {
 			this.sortreq.close();
-		},//end of _sortcancel
-		_openfilterbox : function(){
-			
-			if(!this.filterreq){
-			this.filterreq = sap.ui.xmlfragment(this.getView().getId(),"zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.Filter",this);
-			this.getView().addDependent(this.filterreq);
+		}, //end of _sortcancel
+		_openfilterbox: function() {
+
+			if (!this.filterreq) {
+				this.filterreq = sap.ui.xmlfragment(this.getView().getId(), "zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.Filter", this);
+				this.getView().addDependent(this.filterreq);
 			}
 			this.filterreq.open();
-			
-		},//end of _openfilterbox
-		_closefilter : function(){
+
+		}, //end of _openfilterbox
+		_closefilter: function() {
 			this.filterreq.close();
-		},//end of _closefilter
-		_filter : function(){
+		}, //end of _closefilter
+		_filter: function() {
 			var category = this.byId("category").getValue();
 			var price = this.byId("price").getValue();
-			
-			var filtercategory = new Filter("Category",FilterOperator.Contains,category);
-			var filterprice = new Filter("Price",FilterOperator.EQ,price);
-			
+
+			var filtercategory = new Filter("Category", FilterOperator.Contains, category);
+			var filterprice = new Filter("Price", FilterOperator.EQ, price);
+
 			var xfilter = [];
-			
-			if(category !==""){
+
+			if (category !== "") {
 				xfilter.push(filtercategory);
 			}
-			if(price !==""){
+			if (price !== "") {
 				xfilter.push(filterprice);
 			}
-			
+
 			var finalfilter = new Filter({
-				filters : xfilter,
-				and : true
+				filters: xfilter,
+				and: true
 			});
-			
+
 			var binding = this.getView().byId("table1").getBinding("items");
 			binding.filter([finalfilter]);
 			this.filterreq.close();
-			
-		},//end of _filter
-		
-		_clearfilters : function(){
-				var binding = this.getView().byId("table1").getBinding("items");
-				binding.filter();
-		},//end of _clearfilters
-		
-		
-		
+
+		}, //end of _filter
+
+		_clearfilters: function() {
+			var binding = this.getView().byId("table1").getBinding("items");
+			binding.filter();
+		}, //end of _clearfilters
+		_opengraph: function() {
+
+			if (!this.graph) {
+				this.graph = sap.ui.xmlfragment(this.getView().getId(), "zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.Graph", this);
+				this.getView().addDependent(this.graph);
+			}
+			this.graph.open();
+
+			var oVizFrame = this.oVizFrame = this.getView().byId("idVizFrame").setModel(this.jsonmodelgraph, "graph");
+			oVizFrame.setVizProperties({
+				plotArea: {
+					dataLabel: {
+						visible: true
+					}
+				},
+				valueAxis: {
+					title: {
+						visible: true
+					}
+				},
+				categoryAxis: {
+					title: {
+						visible: true
+					}
+				},
+				title: {
+					visible: true,
+					text: 'ProductID vs Price'
+				}
+			});
+
+		}, //end of _opengraph
+		_closegraph: function() {
+			this.graph.close();
+		}, //end of _closegraph
+
 		/**
 		 * Called when the worklist controller is instantiated.
 		 * @public

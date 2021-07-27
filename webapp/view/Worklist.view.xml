@@ -45,7 +45,8 @@
 						<Button icon="sap-icon://refresh" press="_refresh" type="Emphasized"/>
 						<Button icon="sap-icon://sort" type="Transparent" press="_opensortbox"/>
 						<Button icon="sap-icon://add-filter" type="Accept" press="_openfilterbox"/>
-							<Button icon="sap-icon://clear-filter" type="Reject" press="_clearfilters"/>
+						<Button icon="sap-icon://clear-filter" type="Reject" press="_clearfilters"/>
+						<Button icon="sap-icon://horizontal-bar-chart-2" type="Transparent" press="_opengraph"/>
 					</Toolbar>
 					<Table id="table1" items="{path : 'sapprod>/'}" growing="true" growingThreshold="8" growingScrollToLoad="false">
 						<columns>
@@ -91,12 +92,12 @@
 									<Text text="{sapprod>TypeCode}"/>
 									<Text text="{sapprod>Category}"/>
 									<Text text="{sapprod>Name}"/>
-									<ObjectStatus state="{            path : 'sapprod>Price',            formatter : '.formatter.color1'            }" text="{sapprod>Price}"/>
+									<ObjectStatus state="{ path : 'sapprod>Price', formatter : '.formatter.color1' }" text="{sapprod>Price}"/>
 									<Text text="{ path : 'sapprod>Price', formatter : '.formatter.discprice1' }"/>
-<Text text="{=${sapprod>Price}  &lt; 500 ? ${sapprod>Price}-50 : ${sapprod>Price}-100 }"/>
+									<Text text="{=${sapprod>Price} &lt; 500 ? ${sapprod>Price}-50 : ${sapprod>Price}-100 }"/>
 									<Text text="{ path : 'sapprod>Width', formatter : '.formatter.width1' }"/>
-									<Text text="{           path : 'sapprod>CreatedAt', formatter:'.formatter.createdate1'}"/>
-									<Button text="Delete" type="Reject" visible="{=${sapprod>Price}  &lt; 500 ? false: true}"/>
+									<Text text="{ path : 'sapprod>CreatedAt', formatter:'.formatter.createdate1'}"/>
+									<Button text="Delete" type="Reject" visible="{=${sapprod>Price} &lt; 500 ? false: true}"/>
 								</cells>
 							</ColumnListItem>
 						</items>

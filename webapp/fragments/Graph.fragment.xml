@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data">
+	<Dialog title="Graph" draggable="true" resizable="true" contentHeight="467px" contentWidth="1112px">
+		<App>
+			<pages>
+				<Page>
+					<content>
+						<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" height='100%' width="100%" vizType='waterfall'>
+							<viz:dataset>
+								<viz.data:FlattenedDataset data="{graph>/}">
+									<viz.data:dimensions>
+										<viz.data:DimensionDefinition name="ProductID" value="{graph>ProductID}"/>
+									</viz.data:dimensions>
+									<viz.data:measures>
+										<viz.data:MeasureDefinition name="Price" value="{graph>Price}"/>
+									</viz.data:measures>
+								</viz.data:FlattenedDataset>
+							</viz:dataset>
+							<viz:feeds>
+								<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="ProductID"/>
+								<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="Price"/>
+							</viz:feeds>
+						</viz:VizFrame>
+					</content>
+				</Page>
+			</pages>
+		</App>
+		<beginButton>
+			<Button text="OK" press="_closegraph"/>
+		</beginButton>
+	</Dialog>
+</core:FragmentDefinition>
