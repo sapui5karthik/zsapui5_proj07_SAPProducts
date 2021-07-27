@@ -1,6 +1,4 @@
-<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" 
-xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
-	controllerName="zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Worklist" xmlns:core="sap.ui.core">
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:core="sap.ui.core" controllerName="zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Worklist">
 	<semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false">
 		<semantic:titleHeading>
 			<Title text="SAP Products with OData Query Strings"/>
@@ -8,19 +6,19 @@ xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
 		<semantic:content>
 			<Panel headerText="Products">
 				<content>
-					<Toolbar>
+					<Toolbar visible="false">
 						<ToolbarSpacer/>
 						<Button id="id1" text="Sort by Category" press="_sortbycategory" type="Accept"/>
 						<Button text="Sort by Price" press="_sortbyprice" type="Accept"/>
 						<Button icon="sap-icon://refresh" press="_refresh" type="Emphasized"/>
 					</Toolbar>
-					<Toolbar>
+					<Toolbar visible="false">
 						<ToolbarSpacer/>
 						<Button text="Price le 100" press="_pricele100"/>
 						<Button text="Width bw 5 and 10" press="_widthbt5_10"/>
 						<Button text="Price and Category" press="_priceandcategory"/>
 					</Toolbar>
-					<Toolbar>
+					<Toolbar visible="false">
 						<ToolbarSpacer/>
 						<Input width="auto" placeholder="search on category..." submit="_searchcategory"/>
 					</Toolbar>
@@ -44,6 +42,10 @@ xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
 					<Toolbar>
 						<ToolbarSpacer/>
 						<Button text="Hello Fragment" press="_openhelloworldfragment"/>
+						<Button icon="sap-icon://refresh" press="_refresh" type="Emphasized"/>
+						<Button icon="sap-icon://sort" type="Transparent" press="_opensortbox"/>
+						<Button icon="sap-icon://add-filter" type="Accept" press="_openfilterbox"/>
+							<Button icon="sap-icon://clear-filter" type="Reject" press="_clearfilters"/>
 					</Toolbar>
 					<Table id="table1" items="{path : 'sapprod>/'}" growing="true" growingThreshold="8" growingScrollToLoad="false">
 						<columns>
@@ -78,7 +80,7 @@ xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
 								<Text text="{i18n>cdate}"/>
 							</Column>
 							<Column>
-								<Text text="Action" />
+								<Text text="Action"/>
 							</Column>
 						</columns>
 						<items>
@@ -89,15 +91,11 @@ xmlns:semantic="sap.f.semantic" xmlns:footerbar="sap.ushell.ui.footerbar"
 									<Text text="{sapprod>TypeCode}"/>
 									<Text text="{sapprod>Category}"/>
 									<Text text="{sapprod>Name}"/>
-									<ObjectStatus state="{
-											path : 'sapprod>Price',
-											formatter : '.formatter.color1'
-											}" text="{sapprod>Price}"/>
+									<ObjectStatus state="{            path : 'sapprod>Price',            formatter : '.formatter.color1'            }" text="{sapprod>Price}"/>
 									<Text text="{ path : 'sapprod>Price', formatter : '.formatter.discprice1' }"/>
-<Text text="{=${sapprod>Price}  &lt; 500 ?	${sapprod>Price}-50 : ${sapprod>Price}-100 }" />
+<Text text="{=${sapprod>Price}  &lt; 500 ? ${sapprod>Price}-50 : ${sapprod>Price}-100 }"/>
 									<Text text="{ path : 'sapprod>Width', formatter : '.formatter.width1' }"/>
-									<Text text="{
-										path : 'sapprod>CreatedAt', formatter:'.formatter.createdate1'}"/>
+									<Text text="{           path : 'sapprod>CreatedAt', formatter:'.formatter.createdate1'}"/>
 									<Button text="Delete" type="Reject" visible="{=${sapprod>Price}  &lt; 500 ? false: true}"/>
 								</cells>
 							</ColumnListItem>

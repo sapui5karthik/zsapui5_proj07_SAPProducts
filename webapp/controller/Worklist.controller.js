@@ -8,7 +8,7 @@ sap.ui.define([
 	"sap/ui/model/FilterOperator",
 	"sap/m/MessageBox",
 	"sap/m/MessageToast"
-], function(BaseController, JSONModel, History, formatter, Filter, FilterOperator,MessageBox,MessageToast) {
+], function(BaseController, JSONModel, History, formatter, Filter, FilterOperator, MessageBox, MessageToast) {
 	"use strict";
 
 	return BaseController.extend("zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.controller.Worklist", {
@@ -21,26 +21,23 @@ sap.ui.define([
 		_refresh: function() {
 			this.onInit();
 		}, //end of _refresh
-		_rowselected : function(oevent){
+		_rowselected: function(oevent) {
 			//MessageToast.show("Row clicked");
 			//get the router reference
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-		this.oRouter.navTo("object",{
-			from : "worklist",
-			to : "object",
-			ProductID : oevent.getSource().getBindingContext("sapprod").getProperty("ProductID")
-		},true);	
-			
-			
-			
-			
-		},//end of _rowselected
+			this.oRouter.navTo("object", {
+				from: "worklist",
+				to: "object",
+				ProductID: oevent.getSource().getBindingContext("sapprod").getProperty("ProductID")
+			}, true);
+
+		}, //end of _rowselected
 		onInit: function() {
 			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			var jsonmodeldynacombo = new JSONModel();
-			
+
 			sap.ui.core.BusyIndicator.show(0);
 
 			odatamodel1.read("/ProductSet", {
@@ -217,10 +214,10 @@ sap.ui.define([
 				this._priceandcategory();
 			}
 		}, //end of _staticcombo
-		_dynacombo : function(oevent){
+		_dynacombo: function(oevent) {
 			var productid = oevent.getParameter("value");
-			
-				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+
+			var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
 			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
 			var jsonmodel1 = new sap.ui.model.json.JSONModel();
 			sap.ui.core.BusyIndicator.show(0);
@@ -240,35 +237,143 @@ sap.ui.define([
 					sap.m.MessageToast.show("Failed:Refresh again!:2000" + msg);
 				}
 			});
-			
-		},//end of _dynacombo
-		_getSelectedTableRowsData : function(oevent){
-			if(oevent.getParameter("selected")){
-			var bc = oevent.getSource().getBindingContext("sapprod");
-			var pid = bc.getProperty("ProductID");
-			var tc = bc.getProperty("TypeCode");
-			var cat = bc.getProperty("Category");
-			var name = bc.getProperty("Name");
-			MessageBox.alert(pid +"\n"+tc + "\n"+cat+"\n"+name);
-			
-			}
-		},//end of _getSelectedTableRowsData
-		_openhelloworldfragment : function(){
-			//create a fragment object
-			
-	//this.a = sap.ui.xmlfragment(id of the fragment,path to the fragment,point to the fragment itself);
-	if(!this.a){
-		this.a = sap.ui.xmlfragment(this.getView().getId(),"zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.HelloWorld",this);
-		this.getView().addDependent(this.a);
-	}
-			// open the fragment object
-		this.a.open();
-		},//end of _openhelloworldfragment
-		
-		_cancelHelloWorldbox : function(){
-			this.a.close();
-		},//end of _cancelHelloWorldbox
 
+		}, //end of _dynacombo
+		_getSelectedTableRowsData: function(oevent) {
+			if (oevent.getParameter("selected")) {
+				var bc = oevent.getSource().getBindingContext("sapprod");
+				var pid = bc.getProperty("ProductID");
+				var tc = bc.getProperty("TypeCode");
+				var cat = bc.getProperty("Category");
+				var name = bc.getProperty("Name");
+				MessageBox.alert(pid + "\n" + tc + "\n" + cat + "\n" + name);
+
+			}
+		}, //end of _getSelectedTableRowsData
+		_openhelloworldfragment: function() {
+			//create a fragment object
+
+			//this.a = sap.ui.xmlfragment(id of the fragment,path to the fragment,point to the fragment itself);
+			if (!this.a) {
+				this.a = sap.ui.xmlfragment(this.getView().getId(), "zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.HelloWorld", this);
+				this.getView().addDependent(this.a);
+			}
+			// open the fragment object
+			this.a.open();
+		}, //end of _openhelloworldfragment
+
+		_cancelHelloWorldbox: function() {
+			this.a.close();
+		}, //end of _cancelHelloWorldbox
+		_opensortbox : function(){
+			
+			if(!this.sortreq){
+			this.sortreq = sap.ui.xmlfragment(this.getView().getId(),"zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.Sort",this);
+			this.getView().addDependent(this.sortreq);
+			}
+			this.sortreq.open();
+			this.byId("sortrbgroup").setSelectedIndex(-1);
+		},//end of _opensortbox
+		_sortasc : function(){
+			var param = this.byId("sortrbgroup").getSelectedButton().getText();
+			
+				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
+			var jsonmodel1 = new sap.ui.model.json.JSONModel();
+			//sap.ui.core.BusyIndicator.show(0);
+			this.byId("sortabutton").setBusy(true);
+			odatamodel1.read("/ProductSet?$orderby="+param+"", {
+				success: function(req, resp) {
+
+					//sap.ui.core.BusyIndicator.hide();
+					this.byId("sortabutton").setBusy(false);
+					jsonmodel1.setSizeLimit(1000);
+					jsonmodel1.setData(req.results);
+					this.getView().byId("table1").setModel(jsonmodel1, "sapprod");
+					this.sortreq.close();
+				}.bind(this),
+				error: function(msg) {
+					//sap.ui.core.BusyIndicator.hide();
+					
+					sap.m.MessageToast.show("Failed:Refresh again!:2001" + msg);
+				}
+			});
+			
+		},//end of _sortasc
+		_sortdesc : function(){
+				var param = this.byId("sortrbgroup").getSelectedButton().getText();
+			
+				var data = "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/";
+			var odatamodel1 = new sap.ui.model.odata.ODataModel(data);
+			var jsonmodel1 = new sap.ui.model.json.JSONModel();
+			//sap.ui.core.BusyIndicator.show(0);
+			this.byId("sortdbutton").setBusy(true);
+			odatamodel1.read("/ProductSet?$orderby="+param+" desc", {
+				success: function(req, resp) {
+
+					//sap.ui.core.BusyIndicator.hide();
+					this.byId("sortdbutton").setBusy(false);
+					jsonmodel1.setSizeLimit(1000);
+					jsonmodel1.setData(req.results);
+					this.getView().byId("table1").setModel(jsonmodel1, "sapprod");
+					this.sortreq.close();
+				}.bind(this),
+				error: function(msg) {
+					//sap.ui.core.BusyIndicator.hide();
+					
+					sap.m.MessageToast.show("Failed:Refresh again!:2001" + msg);
+				}
+			});
+		},//end of _sortdesc
+		_sortcancel : function(){
+			this.sortreq.close();
+		},//end of _sortcancel
+		_openfilterbox : function(){
+			
+			if(!this.filterreq){
+			this.filterreq = sap.ui.xmlfragment(this.getView().getId(),"zsapui5proj07.ZSAPUI5_Proj07_SAPProducts.fragments.Filter",this);
+			this.getView().addDependent(this.filterreq);
+			}
+			this.filterreq.open();
+			
+		},//end of _openfilterbox
+		_closefilter : function(){
+			this.filterreq.close();
+		},//end of _closefilter
+		_filter : function(){
+			var category = this.byId("category").getValue();
+			var price = this.byId("price").getValue();
+			
+			var filtercategory = new Filter("Category",FilterOperator.Contains,category);
+			var filterprice = new Filter("Price",FilterOperator.EQ,price);
+			
+			var xfilter = [];
+			
+			if(category !==""){
+				xfilter.push(filtercategory);
+			}
+			if(price !==""){
+				xfilter.push(filterprice);
+			}
+			
+			var finalfilter = new Filter({
+				filters : xfilter,
+				and : true
+			});
+			
+			var binding = this.getView().byId("table1").getBinding("items");
+			binding.filter([finalfilter]);
+			this.filterreq.close();
+			
+		},//end of _filter
+		
+		_clearfilters : function(){
+				var binding = this.getView().byId("table1").getBinding("items");
+				binding.filter();
+		},//end of _clearfilters
+		
+		
+		
 		/**
 		 * Called when the worklist controller is instantiated.
 		 * @public

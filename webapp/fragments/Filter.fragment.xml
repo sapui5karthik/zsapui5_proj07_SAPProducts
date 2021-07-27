@@ -1,0 +1,16 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" 	xmlns:f="sap.ui.layout.form">
+	<Dialog title="Filter" draggable="true" resizable="true" contentHeight="200px" contentWidth="150px">
+		<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="3" labelSpanL="3"
+			labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1"
+			columnsL="1" columnsM="1" singleContainerFullSize="false">
+			<f:content>
+				<Label text="Category"/><Input id="category" width="auto"/>
+				<Label text="Price"/><Input id="price" width="auto"/>
+			</f:content>
+		</f:SimpleForm>
+		<buttons>
+			<Button text="Filter" press="_filter" />
+			<Button text="Cancel" press="_closefilter" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

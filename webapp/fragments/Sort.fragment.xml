@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog title="Sort" draggable="true" resizable="true" contentHeight="200px" contentWidth="150px">
+		<RadioButtonGroup id="sortrbgroup">
+			<RadioButton text="Category"/>
+			<RadioButton text="Price"/>
+			<RadioButton text="Width"/>
+		</RadioButtonGroup>
+		<buttons>
+			<Button id="sortabutton" text="Sort A" press="_sortasc"/>
+			<Button id="sortdbutton" text="Sort D" press="_sortdesc"/>
+			<Button text="Cancel" press="_sortcancel"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
